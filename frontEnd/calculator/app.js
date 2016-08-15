@@ -1,5 +1,5 @@
 
-var calc = {
+var calculator = {
       
    value: "0",  
    
@@ -8,19 +8,32 @@ var calc = {
    result: 0,
 
    insertValue: function(val){
-      this.value += val;       //concatenate the string value
+      this.value += val;       
+      this.num = parseInt(this.value);
+      console.log(this.num);
    },
 
-   add: function (){
-      this.num = parseInt(this.value); 
-      this.result += this.num;
-      this.value = "0";
-      //viewResult();
+   add: function (){ 
+
+   },
+
+   equalsTo: function(){
+   
+
+
+   },   
+
+   subtract: function(){
+   }, 
+
+   multiply: function(){  
+   },
+
+   divide: function(){
    },
 
    viewResult: function(){
-      this.add(); // returns the total
-      console.log(this.result)
+     
    },
 
    resetValues: function(){
@@ -32,20 +45,28 @@ var calc = {
 var handler = {
 
    insertValue: function(val){
-      calc.insertValue(val)
+      calculator.insertValue(val)
    },
 
-    add: function (){
-      calc.add();
-    },
-
-   viewResult: function(){
-      calc.viewResult();
+   add: function (){
+      calculator.add();
    },
 
-   resetValues: function(){
-      calc.resetValues();
-   }
+   subtract: function(){
+      calculator.subtract();
+   },
+
+   multiply: function(){
+      calculator.multiply();
+   },
+
+   divide: function(){
+      calculator.divide();
+   },
+
+   equalsTo: function (){
+      calculator.equalsTo();
+   },
 };
 
 var view = {
@@ -61,18 +82,38 @@ var view = {
         handler.insertValue(e.target.value); 
       });
 
-      var addButton = document.getElementById("addButton");   
-      addButton.addEventListener('click',function(e){
-        handler.add();
-      });
+      var operators = document.querySelector(".operators");   
+      operators.addEventListener('click',function(e){
+        
+         switch(e.target.id) {
+         
+           case "addition":
+            handler.add();
+           break;
 
-      var equalButton = document.getElementById("equalButton");
-      equalButton.addEventListener('click',function(e){    
-        handler.viewResult();
-        handler.resetValues();
+           case "subtraction":
+            handler.subtract();
+           break;
+
+           case "multiplication":
+            handler.subtract();
+           break;
+
+           case "division":
+            handler.divide();
+           break;
+
+           case "equation":
+            handler.equalsTo();
+           break;
+  
+           default:// do nothing
+         }
+
       });
    }
 };
 
 view.setUpEventListeners();
+
 
