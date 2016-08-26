@@ -1,0 +1,26 @@
+
+body{
+    background-color: #dfe;
+}
+
+h1{
+    text-align: center;
+    font-size: 50px;
+    color: #036;
+}
+
+#quote{
+    color: #036;
+    font-size: 25px;
+}
+
+#author{
+    font-size:18px;
+    font-style: italic;
+    color: #036;
+}
+
+.container{ 
+    margin-top: 50px;  
+    width: 40%;
+}
