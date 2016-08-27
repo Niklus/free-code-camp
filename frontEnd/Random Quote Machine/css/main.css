@@ -1,12 +1,26 @@
 
 body{
-    background-color: #dfe;
+    background-color: #cfe;
 }
 
 h1{
     text-align: center;
     font-size: 50px;
     color: #036;
+}
+a:link {
+    text-decoration: none;
+}
+
+img{
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.btn{
+    background-color: #036;
+    color: #cfe;
+    margin-top: 25px; 
 }
 
 #quote{
