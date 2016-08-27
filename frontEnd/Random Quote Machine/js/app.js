@@ -16,7 +16,7 @@ var main = function(){
   }
 
   function addQuote(res) {  
-    
+
     // Clear and append new quote and author    
     $quote.html('').append(res.quoteText? res.quoteText : 'Error, please try again');
     $author.html('').append(res.quoteAuthor? res.quoteAuthor : 'Anonymous'); 

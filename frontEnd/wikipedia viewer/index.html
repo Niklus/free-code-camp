@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Wikipedia Viewer</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<body>
+    
+    <h1>Wikipedia Viewer</h1>
+    <input type="text" name="" placeholder="Search for an article">
+    <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank"><button>random article</button></a>
+    
+    <script>
+    	
+    	var main = function(){
+	    	
+        var url='https://en.wikipedia.org/w/api.php?action=query&titles='+'Main Page'
+               +'&prop=revisions&rvprop=content&format=json';
+
+	    	function getArticle(){  
+			    $.ajax({ 
+			      url: url, 
+			      dataType: "jsonp",  
+			      success: function(res){
+	            console.log(res);
+			      }
+			    });
+	      }
+
+	      getArticle();
+
+	    };
+        
+      $(document).ready(main);
+    </script>
+</body>
+</html>
