@@ -12,9 +12,7 @@ var main = function(){
 	  });
   }
 
-  function getGeoWeather(position) {	  		  		      
-    let lat = position.coords.latitude;
-	  let long = position.coords.longitude;  
+  function getGeoWeather(lat,long) {	  		  		        
     let url='http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+long+
     '&appid=8ebe5fef05ebd9a45403357e1ef5a16c';				  
     getJson(url);
@@ -32,14 +30,26 @@ var main = function(){
     getJson(url);
   }
 
-  function error(){
-  	alert('Geolocation not enabled');
+  function ipGeoLocator(){
+    $.get("http://ipinfo.io", function(response) {    
+      var location = response.loc.split(/,/);
+      let lat = location[0];
+      let long = location[1];
+      getGeoWeather(lat,long);
+    },"jsonp");
+  }
+  
+  function clientGeoLocator(position){      
+    let lat = position.coords.latitude;
+    let long = position.coords.longitude;
+    getGeoWeather(lat,long);
   }
 
   function log(res) {
     console.log('NAME:')
     console.log('City: '+res.name);
-    console.log('Country: '+res.sys.country); 
+    console.log('Country: '+res.sys.country);
+    console.log('Location: '+ res.coord.lat , res.coord.lon);
     console.log('WEATHER:')
     console.log('Description: '+res.weather[0].description);
     console.log('Weather icon: '+ res.weather[0].icon);
@@ -71,7 +81,7 @@ var main = function(){
 	  }
 	});
 
-  navigator.geolocation.getCurrentPosition(getGeoWeather,error);
+  navigator.geolocation.getCurrentPosition(clientGeoLocator,ipGeoLocator);
 };
 
 $(document).ready(main);
