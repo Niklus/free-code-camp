@@ -1,0 +1,41 @@
+body{
+    margin-top: 30px;
+    text-align: center;
+    	
+  }
+p{
+	font-size: 30px;
+	color: #036;
+}
+#description{
+	/*font-style: italic;*/
+
+}
+#temp{
+	font-size: 60px;
+	display: inline-block;
+}
+#location{
+	
+	
+}
+#main{
+	font-size: 60px;
+	display: inline-block;
+
+}
+#tempSup{
+	background-color:#ddd; 
+	border-radius: 5px;
+	box-shadow: 2px 2px 2px #bbb;
+}
+
+.hot{
+    color: #e82;
+}
+.warm{
+    color: #099;
+}
+.cold{
+   color: #06a;
+}
