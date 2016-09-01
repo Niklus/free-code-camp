@@ -1,35 +1,33 @@
 body{
-    margin-top: 30px;
-    text-align: center;
-    	
-  }
-p{
-	font-size: 30px;
-	color: #036;
+    margin-top: 30px;       	
 }
-#description{
-	/*font-style: italic;*/
+.well{
+    background-color: #ddd; 
+}
 
+#weather{
+    font-size: 30px; 
+    text-align: center;
 }
-#temp{
-	font-size: 60px;
-	display: inline-block;
-}
-#location{
-	
-	
+
+#details{
+    font-size: 17px; 
+    margin-top: 40px;
+    color: #666;
 }
 #main{
-	font-size: 60px;
-	display: inline-block;
-
+    font-size: 60px;
+    display: inline-block;
 }
-#tempSup{
-	background-color:#ddd; 
-	border-radius: 5px;
-	box-shadow: 2px 2px 2px #bbb;
+#temp{
+    font-size: 60px;
+    display: inline-block;
 }
-
+.btnSup{
+    font-size: 30px;
+    height: 30px; 
+    width: 45px;
+}
 .hot{
     color: #e82;
 }
@@ -38,4 +36,22 @@ p{
 }
 .cold{
    color: #06a;
+}
+.weekdays li {
+    display: inline-block;
+    width: 13.6%;
+    color: #666;
+    text-align: center;
+}
+.icons li {
+    list-style-type: none;
+    display: inline-block;
+    width: 13.6%;
+    text-align: center; 
+    background: #eee;
+}
+input{
+    width: 25%;
+    margin: auto;
+    display: flex;
 }

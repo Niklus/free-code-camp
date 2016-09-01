@@ -14,11 +14,21 @@
 	<link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div class="container well ">  
+    <div class="container well">  
+		  
+		  <div class='row'>
+			  <div id='weather' class= 'col-xs-8 col-sm-8 col-lg-8'>
+			  </div>
+			  <div id='details' class= 'col-xs-4 col-sm-4 col-lg-4' >			  	
+		    </div>
+		  </div>
 
-		  <div id='weather'></div>
-		  <div id ="details"></div>
-		  <input id= 'cityInput' type='text' placeholder='Enter a city'>
+		  <div>
+			  <ul class="weekdays"></ul>
+				<ul class="icons"></ul>
+			</div>
+
+		  <input id= 'cityInput' placeholder='Enter a city'>	  
 	  </div>
     <script src='js/app.js'></script>
 </body>
