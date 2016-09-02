@@ -25,8 +25,10 @@ body{
 }
 .btnSup{
     font-size: 30px;
-    height: 30px; 
+    height: 35px; 
     width: 45px;
+    box-shadow: 1px 1px 1px #888;
+    border: 1px solid #ddd;
 }
 .hot{
     color: #e82;
