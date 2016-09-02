@@ -9,55 +9,46 @@ var model = {
       $.getJSON(forecast_Url)
     ).then(
       function(current,forecast){
-        model.handleCurrentData(current);
-        model.handleForecastData(forecast);
         //console.log(this);
+        model.updateCurrentView(current[0]);
+        model.updateForecastView(forecast[0]);   
     });
   },
 
-  getGeoWeather: function(lat,long) {
+  updateCurrentView: function(current){
+    
+    var tmp = current.main.temp-273.15;
+    var icon = current.weather[0].icon;
+    var description = current.weather[0].description;
+    var location = current.name;
+    var main = current.weather[0].main;
+    var temp_max = (current.main.temp_max-273.15).toFixed();
+    var temp_min = (current.main.temp_min-273.15).toFixed();
+    var humidity = current.main.humidity;
+    var windSpeed = current.wind.speed;
 
-    let current_Url='http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+long+'&appid=8ebe5fef05ebd9a45403357e1ef5a16c';  
-    let forecast_Url='http://api.openweathermap.org/data/2.5//forecast/daily?lat='+lat+'&lon='+long+'&cnt=8&appid=8ebe5fef05ebd9a45403357e1ef5a16c';     
-    this.getWeatherData(current_Url, forecast_Url);
-  },
-  
-  getCityWeather: function(cityName){  
-    
-    let current_Url='http://api.openweathermap.org/data/2.5/weather?q='+cityName+'&appid=8ebe5fef05ebd9a45403357e1ef5a16c';    
-    let forecast_Url='http://api.openweathermap.org/data/2.5/forecast/daily?q='+cityName+'&cnt=8&appid=8ebe5fef05ebd9a45403357e1ef5a16c'; 
-    this.getWeatherData(current_Url, forecast_Url);
-  },
-
-  handleCurrentData: function(current){
-    
-    current = current[0]; 
-    
-    let tmp = current.main.temp-273.15;
-    let icon = current.weather[0].icon;
-    let description = current.weather[0].description;
-    let location = current.name;
-    let main = current.weather[0].main;
-    
-    let temp_max = (current.main.temp_max-273.15).toFixed();
-    let temp_min = (current.main.temp_min-273.15).toFixed();
-    let humidity = current.main.humidity;
-    let windSpeed = current.wind.speed;
-
-    controller.displayCurrentWeather(tmp,icon,description,location,main);
-   
-    controller.displayWeatherDetails(temp_max,temp_min,humidity,windSpeed); 
+    // Update view 
+    view.displayCurrentWeather(tmp,icon,description,location,main);
+    view.displayWeatherDetails(temp_max,temp_min,humidity,windSpeed); 
   },
 
-  handleForecastData: function(forecast){
+  updateForecastView: function(forecast){
     
-    let icons = [];
-
-    for(var i = 1; i<forecast[0].list.length; i++){ 
-      icons.push(forecast[0].list[i].weather[0].icon);
+    var icons = [];
+    for(var i = 0; i<forecast.list.length; i++){ 
+      icons.push(forecast.list[i].weather[0].icon);
     }
 
-    controller.displayForecastData(icons);
+    //Sort days in order starting from today
+    var days;
+    (function (){
+      var list = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      var day = new Date().getDay();
+      var spliced = list.splice(day);
+      days = spliced.concat(list);
+    })();
+
+    view.displayForecastData(icons,days);
   }
 
 };
@@ -66,25 +57,18 @@ var model = {
 /*Controller*/
 var controller = {
   
-  getGeoWeather: function(lat,long) {                         
-    model.getGeoWeather(lat,long);
-  },
+  getGeoWeather: function(lat,long) {
 
-  getCityWeather: function(cityName){      
-    model.getCityWeather(cityName);
-  },
-
-  displayCurrentWeather: function(tmp,icon,description,location,main){
-    view.displayCurrentWeather(tmp,icon,description,location,main);
+    let current_Url='http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+long+'&appid=8ebe5fef05ebd9a45403357e1ef5a16c';  
+    let forecast_Url='http://api.openweathermap.org/data/2.5//forecast/daily?lat='+lat+'&lon='+long+'&cnt=7&appid=8ebe5fef05ebd9a45403357e1ef5a16c';     
+    model.getWeatherData(current_Url, forecast_Url);
   },
   
-  displayWeatherDetails: function(temp_max,temp_min,humidity,windSpeed){
-    view.displayWeatherDetails(temp_max,temp_min,humidity,windSpeed);
-  },
-
-  displayForecastData: function(icons){
-   view.displayForecastData(icons);
-  }
+  getCityWeather: function(cityName){    
+    let current_Url='http://api.openweathermap.org/data/2.5/weather?q='+cityName+'&appid=8ebe5fef05ebd9a45403357e1ef5a16c';    
+    let forecast_Url='http://api.openweathermap.org/data/2.5/forecast/daily?q='+cityName+'&cnt=7&appid=8ebe5fef05ebd9a45403357e1ef5a16c'; 
+    model.getWeatherData(current_Url, forecast_Url);
+  } 
 };
 
 
@@ -93,26 +77,15 @@ var view = {
 
   displayCurrentWeather: function(tmp,icon,description,location,main){
 
-    //Clear div
+    //Clear elements
     var $weather = $('#weather').html(''); 
 
-    //Get temp color
-    var tempColor;
-    if(tmp<15){
-      tempColor = 'cold';
-    } else if(tmp < 25){
-      tempColor = 'warm';
-    }else{
-      tempColor ='hot';
-    }
-    
-    //Weather info
+    //Create elements
     var $weatherInfo = $('<div>');
-    $weatherInfo.addClass(tempColor);
-    
     var $location = $("<p>").text(location);
     var $main = $('<p id="main">').text(main);
     var $weatherIcon = $('<img>');
+    
     $weatherIcon.attr({ 
       src: 'http://openweathermap.org/img/w/'+icon+'.png', 
       alt:" weather icon" 
@@ -120,28 +93,44 @@ var view = {
     
     var $iconSup = $('<sup>').append($weatherIcon);
     var $mainWithSup = $main.append($iconSup);
+    
     var $temp = $('<p id="temp">').text(Math.round(tmp)); 
-    $temp.val(Math.round(tmp)); // use to convert
+    $temp.val(Math.round(tmp)); 
+    
     var $tempSup = $('<sup id ="tempSup">');
-    var $btn = $('<button>').text('°C');
-    $btn.attr( 'class', 'btnSup');
+    var $btn = $('<button class="btnSup">').text('°C');
     $tempSup.append($btn);
     
     var $tempWithSup = $temp.append($tempSup);
     var $description = $('<p>').text(description);
+    
     $weatherInfo.append($location);
     $weatherInfo.append($mainWithSup);
     $weatherInfo.append($tempWithSup);
     $weatherInfo.append($description);
+     
+    //Styling
+    var tempColor;
+
+    if(tmp < 15)
+      tempColor = 'cold';
+    else if(tmp < 25)
+      tempColor = 'warm';
+    else
+      tempColor = 'hot';
+    
+    $weatherInfo.addClass(tempColor);
+
+    //Render
     $weather.append($weatherInfo);
   },
 
   displayWeatherDetails: function(temp_max,temp_min,humidity,windSpeed){
     
-    // Clear div
+    // Clear elements 
     var $details = $('#details').html('');
     
-    //Details
+    //Create elements
     var $weatherDetails = $('<div>');
     var $temp_max = $("<p>").text('Max Temp: '+temp_max);
     var $temp_min = $("<p>").text('Min Temp: '+temp_min);
@@ -153,62 +142,59 @@ var view = {
     $weatherDetails.append($humidity);  
     $weatherDetails.append($windSpeed);
 
+    //Render
     $details.append($weatherDetails);
   },
 
-  displayForecastData: function(icons) {
+  displayForecastData: function(icons,days) {
     
+    //Clear icon & day list
     var $icons = $('.icons').html('');
     var $days = $('.weekdays').html('');
     
-    //Sort days in order starting from today
-    var sortedDays;
-    (function (){
-      let list = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-      let day = new Date().getDay();
-      let spliced = list.splice(day);
-      sortedDays = spliced.concat(list);
-    })();
-    
-    // Update icon list
+    // Create and update lists
     for(var i = 0; i<icons.length; i++){   
+      
       var $imageList = $('<li>');
       var $img = $('<img>');
-     
-      $imageList.append($img)
-      $icons.append($imageList);
+      
       $img.attr( { 
         src: 'http://openweathermap.org/img/w/'+icons[i]+'.png', 
         alt:" weather icon" 
       });
-
-      $days.append($('<li>').text(sortedDays[i]));
+      
+      $imageList.append($img)
+      $icons.append($imageList);
+      $days.append($('<li>').text(days[i]));
     } 
   },
 
   setUpEventListeners: function(){
-
-     
+   
     var $cityInput = $('#cityInput');
+   
     $cityInput.on('keypress', function (event) {
-      let city = $cityInput.val();      
-      if(event.keyCode === 13 && city){          
+      
+      var city = $cityInput.val();      
+      
+      if(event.keyCode === 13 && city){            
         controller.getCityWeather(city);  
         $cityInput.val('');
       }
     });
 
     var bool = false;
+    
     $('#weather').on('click','#tempSup',function(event) { 
-      
+
       //Switch from °C-°F & vice versa
       bool = !bool;
-      $('.btnSup').text(bool?'°F':'°C');   
-
       var $temp = $("#temp");
-      var temprature =  $temp.val();
-      
-      temprature = bool?(temprature*1.8)+32:(temprature-32)/1.8;
+      var temprature =  $temp.val(); 
+    
+      $('.btnSup').text(bool?'°F':'°C');
+     
+      temprature = bool?(temprature*1.8)+32:(temprature-32)/1.8;   
       $temp.text(Math.round(temprature)).append(this);
       $temp.val(temprature);  
     });   
@@ -216,7 +202,6 @@ var view = {
 };
 
 view.setUpEventListeners();
-
 
 //Use clientGeoLocator, if not activated - use ipGeoLocator as a "fallback" 
 navigator.geolocation.getCurrentPosition(clientGeoLocator,ipGeoLocator); 
