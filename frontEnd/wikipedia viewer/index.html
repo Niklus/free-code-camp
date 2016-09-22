@@ -10,31 +10,69 @@
 <body>
     
     <h1>Wikipedia Viewer</h1>
-    <input type="text" name="" placeholder="Search for an article">
-    <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank"><button>random article</button></a>
+    
+    <input placeholder="Search for an article">
+    <button id="search">Search</button>
+     <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank"><button>Random</button></a>
+
+
+    <div id="myDiv">
+    	
+    </div>
     
     <script>
     	
-    	var main = function(){
-	    	
-        var url='https://en.wikipedia.org/w/api.php?action=query&titles='+'Main Page'
-               +'&prop=revisions&rvprop=content&format=json';
 
-	    	function getArticle(){  
-			    $.ajax({ 
-			      url: url, 
-			      dataType: "jsonp",  
-			      success: function(res){
-	            console.log(res);
-			      }
-			    });
-	      }
+    	var input = $('input');
+    	
+		input.on('keypress', function (event) { 
 
-	      getArticle();
+		    var val = input.val();	
+			
+			if( event.keyCode === 13 && val ){            
+				getArticle(val);
+			}
+		});
 
-	    };
+		$('#search').on('click', function(event){
+
+			var val = input.val();
+            
+            if(val){            
+				getArticle(val);
+			}
+		});
+
+
+
+	    function getArticle(input){  
         
-      $(document).ready(main);
+            var url='https://en.wikipedia.org/w/api.php?action=query&titles='+input+'&prop=revisions&rvprop=content&format=json';
+
+		    $.ajax({ 
+		      url: url, 
+		      dataType: "jsonp",  
+		      success: function(res){		      	
+		      	//console.log(res);
+		      	doSomething(res);
+			  }
+		    });
+        }
+
+	    function doSomething(res){
+            
+            var pages = res.query.pages;
+           	var keys = Object.keys(pages);
+	      	var wikiText = pages[keys[0]].revisions[0]['*'];
+
+	      	console.log(wikiText);
+
+            var $text = $('<p>').text(wikiText);
+	      	
+	      	$('#myDiv').html('').append($text);
+	    } 	 
+ 	
+
     </script>
 </body>
 </html>
