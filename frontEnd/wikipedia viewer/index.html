@@ -13,15 +13,14 @@
     
     <input placeholder="Search for an article">
     <button id="search">Search</button>
-     <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank"><button>Random</button></a>
-
+    <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank"><button>Random</button></a>
 
     <div id="myDiv">
     	
     </div>
     
     <script>
-    	
+    	getArticle('JSON');
 
     	var input = $('input');
     	
@@ -71,8 +70,8 @@
 	      	
 	      	$('#myDiv').html('').append($text);
 	    } 	 
- 	
-
     </script>
+
+    <script src="wiki.js"></script>
 </body>
 </html>

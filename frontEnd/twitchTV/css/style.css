@@ -1,0 +1,15 @@
+
+#channels{
+	list-style: none; 
+}
+.demo-card-square.mdl-card {
+  width: 320px;
+  height: 320px;
+}
+.mdl-card__title {
+  color: #fff;
+  font-weight: bold;
+}
+.space{
+	height: 30px;
+}
