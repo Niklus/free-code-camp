@@ -7,8 +7,20 @@ var model = {
     data: [],
     
 	init: function() {
-
-		var channels = ['ESL_SC2', 'OgamingSC2', 'cretetion', 'freecodecamp', 'storbeck', 'habathcx', 'RobotCaleb', 'noobs2ninjas'];
+        
+        // Popular channels
+		var channels = [
+            'syndicate',
+            'riotgames',
+            'Nightblue3',
+            'ESL_SC2', 
+            'OgamingSC2', 
+            'cretetion', 
+            'freecodecamp',  
+            'habathcx', 
+            'RobotCaleb', 
+            'noobs2ninjas'
+        ];
 
         channels.forEach(function(channel){  
 			
@@ -59,6 +71,8 @@ var view = {
 
 	init: function() {
 
+        //Initialize Ui elements
+
 		
         // Initialize Event Listeners     
         var search = $('#search');
@@ -80,47 +94,52 @@ var view = {
 
         console.log(data);
         
-        var channels = $('#channels').html('');
+        var channels = $('.row').html('');
 
+        // Render a Card for each object
         data.forEach(function(obj){
-	        
-            var list = $('<li>');
-            var img = $('<img>');
 
+	        // Create Ellemnts
+            var column = $('<div>').attr('class','col-lg-3 col-md-4 col-sm-6')
 
-            var div1 = $('<div>').attr('class','demo-card-square mdl-card mdl-shadow--2dp');
-            var div2 = $('<div>').attr('class','mdl-card__title mdl-card--expand');
-            var game = $('<h2>').attr('class','mdl-card__title-text');
-                game.text();
-
-            div2.css('background','url('+obj.logo+')')
-
-            var div3 = $('<div>').attr('class','mdl-card__supporting-text');
-                div3.text(obj.status ? obj.status : 'offline');
-
-            var div4 = $('<div>').attr('class','mdl-card__actions mdl-card--border');
-            var link = $('<a>').attr({
-            	class: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect',
-            	href: obj.url,
-            	target: '_blank'
+            var card = $('<div>').attr('class','card'); 
+            
+            var img = $('<img>').attr({
+                class: 'card-img-top img-responsive' ,
+                src: obj.logo,
+                alt: 'Channels logo'
             });
-            	link.text(obj.game ? obj.game : '...');
 
+            var details = $('<div>').attr('class','card-block card-inverse');
+            var title = $('<h4>').attr('class','card-title');
+                title.text(obj.game);
 
-            div2.append(game);
-            div4.append(link);
-            div1.append(div2);
-            div1.append(div3);
-            div1.append(div4);
-            list.append(div1);
+            var text = $('<p>').attr('class', 'card-text');
+                text.text(obj.status ? obj.status : '...');
+            
+            var link = $('<a>').attr({
+                href: obj.url,
+                class: 'btn btn-primary',
+                target: '_blank'
+            });
+                link.text(obj.name);    
 
-            var spacer = $('<div>').attr('class','space');
-            list.append(spacer);
+            // Inner Div
+            details.append(title);
+            details.append(text);
+            details.append(link);
 
+            // Outer Div
+            card.append(img);
+            card.append(details);
 
+            //Column Div
+            column.append(card);
+            
 
+            // Row Div - Static
+            channels.append(column);
 
-            channels.append(list);
         });
     }
 };
