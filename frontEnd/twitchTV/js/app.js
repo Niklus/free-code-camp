@@ -16,6 +16,8 @@ var model = {
             'ESL_SC2', 
             'OgamingSC2', 
             'cretetion', 
+            'storbeck',
+            'comster404',
             'freecodecamp',  
             'habathcx', 
             'RobotCaleb', 
@@ -29,7 +31,9 @@ var model = {
 		    $.getJSON(url, function(obj) {	
 				model.data.push(obj);
 		    });	
-        });         
+        });  
+
+        this.renderAll();    
 	},
 
 	search: function(channel) {
@@ -39,9 +43,41 @@ var model = {
 		
 		$.getJSON(url, function(obj) {
 	       data.push(obj);
-	       view.render(data);
+           ctrl.render(data);
 		});
-	}
+
+        
+	},
+
+    renderAll: function() {
+
+        ctrl.render(this.data);
+    },
+
+    renderOnline: function(){
+
+        var data = [];
+
+        this.data.forEach(function(obj){
+            if(obj.status !== null){
+                data.push(obj);
+            }
+        })
+
+        ctrl.render(data);
+    },
+
+    renderOffline: function(){
+        var data = [];
+
+        this.data.forEach(function(obj){
+            if(obj.status == null){
+                data.push(obj);
+            }
+        })
+
+        ctrl.render(data);
+    }
 };
 
 
@@ -50,18 +86,34 @@ var model = {
 var ctrl = {
 	
 	init: function() {
-		
-		model.init();
-		view.init();		
+       
+        model.init();
+        view.init();    
 	},
 
-	updateView: function(){
-		view.render(model.data);
-	},
+    search: function(val){
+        model.search(val);
+    },
 
-	search: function(val){
-		model.search(val);
-	}
+    render: function(data){
+        view.render(data);
+    },
+
+	renderAll: function(){
+        model.renderAll();
+	},
+    
+    renderOnline: function(){
+        model.renderOnline();
+    },
+
+    renderOffline: function(){
+        model.renderOffline();
+    },
+
+    addChannel: function() {
+
+    }
 };
 
 
@@ -76,73 +128,74 @@ var view = {
 		
         // Initialize Event Listeners     
         var search = $('#search');
-   		search.on('keypress', function (event) {
-      	  var val = search.val();      
-	      if(event.keyCode === 13 && val){               	
-	       	ctrl.search(val);  
+   		search.on('keypress', function (event) {      
+	      if(event.keyCode === 13 && search.val()){               	
+	       	ctrl.search(search.val());  
 	        search.val('');
 	      }
     	});
 
-    	$('#fetch').on('click', function (event) {
-    		ctrl.updateView();
+    	$('#all').on('click', function (event) {
+    		ctrl.renderAll();
     	});
 
+        $('#online').on('click', function (event) {
+            ctrl.renderOnline();
+        });
+
+        $('#offline').on('click', function (event) {
+            ctrl.renderOffline();
+        });
     },
 
     render: function(data) {
 
         console.log(data);
         
-        var channels = $('.row').html('');
+        var channels = $('.list-group').html('');
 
-        // Render a Card for each object
         data.forEach(function(obj){
 
 	        // Create Ellemnts
-            var column = $('<div>').attr('class','col-lg-3 col-md-4 col-sm-6')
+            var list = $('<li>').attr('class','list-group-item');
+            var container = $('<div>').attr('class','container');
+            var media = $('<div>').attr('class','media');
 
-            var card = $('<div>').attr('class','card'); 
-            
+            var link = $('<a>').attr({
+                href: obj.url,
+                class: 'media-left',
+                target: '_blank'
+            });
+
             var img = $('<img>').attr({
-                class: 'card-img-top img-responsive' ,
+                class: 'media-object' ,
                 src: obj.logo,
                 alt: 'Channels logo'
             });
-
-            var details = $('<div>').attr('class','card-block card-inverse');
-            var title = $('<h4>').attr('class','card-title');
-                title.text(obj.game);
-
-            var text = $('<p>').attr('class', 'card-text');
-                text.text(obj.status ? obj.status : '...');
             
-            var link = $('<a>').attr({
-                href: obj.url,
-                class: 'btn btn-primary',
-                target: '_blank'
-            });
-                link.text(obj.name);    
+            var mediaBody = $('<div>').attr('class','media-body');
+            var heading = $('<h4>').attr('class','media-heading');
+                heading.text(obj.game);
+            var text = $('<p>').text(obj.status ? obj.status : '...');
 
-            // Inner Div
-            details.append(title);
-            details.append(text);
-            details.append(link);
 
-            // Outer Div
-            card.append(img);
-            card.append(details);
+            link.append(img);
+            mediaBody.append(heading);
+            mediaBody.append(text);
 
-            //Column Div
-            column.append(card);
-            
+            media.append(link);
+            media.append(mediaBody);
 
-            // Row Div - Static
-            channels.append(column);
+            container.append(media);
+            list.append(container);
+            channels.append(list);
 
         });
     }
 };
 
+// Bam!
 ctrl.init();
+
+
 
