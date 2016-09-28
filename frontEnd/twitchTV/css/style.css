@@ -1,1 +1,27 @@
 
+body{
+	background-color: #caefdd;
+	color: #003265;
+}
+
+a{
+	color: #003265;
+	font-weight: bolder;
+}
+
+img{
+	width: 64px;
+}
+
+.container{
+	margin-top: 10px;
+}
+
+input{
+	margin-top: 10px;
+}
+
+.list-group li{
+	margin-top: 2px;
+}
+
