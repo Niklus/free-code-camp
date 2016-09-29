@@ -9,16 +9,12 @@ var ctrl = {
     // Initialize data
     model.init(); 
 
-    // Just a sec to initialize data
+    // then init view once data has loaded
     setTimeout(view.init,1500); 
 	},
 
   search: function(val){
     model.search(val);
-  },
-
-  render: function(data){
-      view.render(data);
   },
 
   renderAll: function(){
@@ -31,7 +27,11 @@ var ctrl = {
 
   renderOffline: function(){
     model.renderOffline();
-  }
+  },
+
+  render: function(data){
+    view.render(data);
+  },
 };
 
 // Bam!

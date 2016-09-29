@@ -5,47 +5,7 @@
 var model = {
     
   data: [],
-
-  getData: function(channel,searchData){
-
-    var streams = 'https://api.twitch.tv/kraken/streams/'+channel
-      +'?&client_id=gj0milauq3wupklis0atg6g58h6ewz3&callback=?';
-    
-    var channels = 'https://api.twitch.tv/kraken/channels/'+channel
-      +'?&client_id=gj0milauq3wupklis0atg6g58h6ewz3&callback=?';
-    
-    var modelData = this.data;
-    
-    // Check if Streaming
-    $.getJSON(streams, function(streamData) {
-        
-      // If not streaming get the channels data
-      if(streamData.stream==null){  
-          
-        $.getJSON(channels, function(channelData) { 
-            
-          if(searchData){ // If searched, render directly
-            
-            searchData.push(channelData);
-            ctrl.render(searchData);
-
-          }else{ // Else store in model.data
-
-            modelData.push(channelData);
-          }
-        });           
-      }else{ // Else use the streaming data  
-
-        if(searchData){
-            searchData.push(streamData);
-            ctrl.render(searchData);
-        }else{
-            modelData.push(streamData);
-        }           
-      }
-    });
-  },
-    
+  
 	init: function() {
         
     // Placeholder Channels
@@ -65,20 +25,50 @@ var model = {
     ];
 
     channels.forEach(function(channel){  
-      model.getData(channel);
+      model.getData(channel,false);
     });     
 	},
 
 	search: function(channel) {
 
-    var searchData = [];
-
-    model.getData(channel,searchData);
+    this.getData(channel,true);
 	},
+  
+  getData: function(channel,searched){
+
+    var streams = 'https://api.twitch.tv/kraken/streams/'+channel
+      +'?&client_id=gj0milauq3wupklis0atg6g58h6ewz3&callback=?';
+    
+    var channels = 'https://api.twitch.tv/kraken/channels/'+channel
+      +'?&client_id=gj0milauq3wupklis0atg6g58h6ewz3&callback=?';
+    
+    $.getJSON(streams, function(streamData) {
+          
+      if(streamData.stream == null){  
+
+        $.getJSON(channels, function(channelData) {   
+          
+          model.dataHandler(channelData,searched);     
+        });   
+      }else{
+        model.dataHandler(streamData,searched);         
+      }
+    });
+  },
+
+  dataHandler: function(data,searched) {
+  
+    if(searched){    
+      var result = [];
+      result.push(data);
+      this.render(result);  
+    }else{
+      this.data.push(data);
+    }
+  },
 
   renderAll: function() {
-
-    ctrl.render(this.data);
+    this.render(this.data);
   },
 
   renderOnline: function(){
@@ -87,11 +77,11 @@ var model = {
 
     this.data.forEach(function(obj){
       if(obj.stream){
-          data.push(obj);
+        data.push(obj);
       }
     })
 
-    ctrl.render(data);
+    this.render(data);
   },
 
   renderOffline: function(){
@@ -100,10 +90,14 @@ var model = {
 
     this.data.forEach(function(obj){
       if(obj.stream == null){
-          data.push(obj);
+        data.push(obj);
       }
     })
 
+    this.render(data);
+  },
+
+  render: function(data){
     ctrl.render(data);
-  }
+  },
 };

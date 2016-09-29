@@ -5,33 +5,33 @@
 var view = {
 
 	init: function() {
-  
-    var search = $('#search');
- 		search.on('keypress', function (event) {      
-      if(event.keyCode === 13 && search.val()){               	
-       	ctrl.search(search.val());  
-        search.val('');
+    
+ 		$('#search').on('keypress', function (event) {      
+      
+      if(event.keyCode === 13 && $(this).val()){               	
+       	
+        ctrl.search($(this).val());  
+        $(this).val('');
       }
   	});
 
-  	$('#all').on('click', function (event) {
-  		ctrl.renderAll();
-
+  	$('#all').on('click', function (event) {	
+      ctrl.renderAll();
   	});
 
-      $('#online').on('click', function (event) {
-          ctrl.renderOnline();
-      });
+    $('#online').on('click', function (event) {
+      ctrl.renderOnline();
+    });
 
-      $('#offline').on('click', function (event) {
-          ctrl.renderOffline();
-      });
+    $('#offline').on('click', function (event) {
+      ctrl.renderOffline();
+    });
 
-      ctrl.renderAll();
+    ctrl.renderAll();
   },
 
   render: function(data) {
-      
+    
     var channels = $('.list-group').html('');
 
     data.forEach(function(obj){
@@ -40,16 +40,17 @@ var view = {
       var container = $('<div>').attr('class','container');
       var media = $('<div>').attr('class','media');
 
-      var link = $('<a>').attr({  
+      var styleLink = $('<a>').attr('class', 'media-left');
+
+      var trueLink = $('<a>').attr({  
           href:  obj.stream ? obj.stream.channel.url : obj.url,
-          class: 'media-left',
           target: '_blank'
       });
 
       var img = $('<img>').attr({
           src: obj.stream ? obj.stream.channel.logo : obj.logo,
           class: 'media-object',
-          alt: 'Channels logo'
+          alt: 'channels logo'
       });
       
       var mediaBody = $('<div>').attr('class','media-body');
@@ -66,16 +67,17 @@ var view = {
           text.text(obj.stream.channel.status);
       }
 
-      link.append(img);
+      styleLink.append(img);
 
       mediaBody.append(heading);
       mediaBody.append(text);
 
-      media.append(link);
+      media.append(styleLink);
       media.append(mediaBody);
 
       container.append(media);
-      list.append(container);
+      trueLink.append(container);
+      list.append(trueLink);
       channels.append(list);
     });
   }

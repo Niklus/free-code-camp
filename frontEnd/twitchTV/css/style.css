@@ -1,12 +1,17 @@
 
 body{
+
 	background-color: #caefdd;
 	color: #003265;
 }
 
 a{
 	color: #003265;
-	font-weight: bolder;
+	font-style: bold;
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 img{
@@ -23,5 +28,7 @@ input{
 
 .list-group li{
 	margin-top: 2px;
+	
+	background-color: #eeeeee;
 }
 
