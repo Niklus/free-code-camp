@@ -3,36 +3,32 @@
 /* ======= Controller ======= */
 
 var ctrl = {
-	
-	init: function() {
+  
+  init: function() {
        
     // Initialize data
     model.init(); 
 
-    // then init view once data has loaded
+    // Then init view once data has loaded
     setTimeout(view.init,1500); 
-	},
-
-  search: function(val){
-    model.search(val);
   },
 
-  renderAll: function(){
-    model.renderAll();
+  search: function(channel){
+    model.getStreamData(channel,true);
+  },
+
+  getAll: function(){
+    model.getAll();
   },
   
-  renderOnline: function(){
-    model.renderOnline();
+  getOnline: function(){
+    model.getOnline();
   },
 
-  renderOffline: function(){
-    model.renderOffline();
-  },
-
-  render: function(data){
-    view.render(data);
-  },
+  getOffline: function(){
+    model.getOffline();
+  }
 };
 
-// Bam!
+// Initialize
 ctrl.init();

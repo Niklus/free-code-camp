@@ -25,79 +25,78 @@ var model = {
     ];
 
     channels.forEach(function(channel){  
-      model.getData(channel,false);
-    });     
-	},
-
-	search: function(channel) {
-
-    this.getData(channel,true);
+      model.getStreamData(channel);
+    });    
 	},
   
-  getData: function(channel,searched){
-
+  getStreamData: function(channel,searched){
+     
     var streams = 'https://api.twitch.tv/kraken/streams/'+channel
-      +'?&client_id=gj0milauq3wupklis0atg6g58h6ewz3&callback=?';
+    +'?&client_id=gj0milauq3wupklis0atg6g58h6ewz3&callback=?';
     
-    var channels = 'https://api.twitch.tv/kraken/channels/'+channel
-      +'?&client_id=gj0milauq3wupklis0atg6g58h6ewz3&callback=?';
-    
-    $.getJSON(streams, function(streamData) {
-          
-      if(streamData.stream == null){  
-
-        $.getJSON(channels, function(channelData) {   
-          
-          model.dataHandler(channelData,searched);     
-        });   
-      }else{
-        model.dataHandler(streamData,searched);         
-      }
+    $.getJSON(streams, function(data) {     
+        
+      // If not streaming, get channels data
+      if(data.stream==null){
+        model.getChannelData(channel,searched);
+      } else{
+        model.handleData(data,searched);
+      }    
     });
   },
 
-  dataHandler: function(data,searched) {
+  getChannelData: function(channel,searched){
+
+    var channels = 'https://api.twitch.tv/kraken/channels/'+channel
+    +'?&client_id=gj0milauq3wupklis0atg6g58h6ewz3&callback=?';
+    
+    $.getJSON(channels, function(data) {     
+      model.handleData(data,searched);     
+    });
+  },
+
+  handleData: function(data,searched) {
   
-    if(searched){    
+    if(searched){ 
       var result = [];
       result.push(data);
-      this.render(result);  
+      this.updateView(result);  
     }else{
       this.data.push(data);
     }
   },
 
-  renderAll: function() {
-    this.render(this.data);
+  getAll: function() {
+    var data = this.data;
+    this.updateView(data);
   },
 
-  renderOnline: function(){
+  getOnline: function(){
 
     var data = [];
-
     this.data.forEach(function(obj){
       if(obj.stream){
         data.push(obj);
       }
-    })
-
-    this.render(data);
+    });
+    this.updateView(data);
   },
 
-  renderOffline: function(){
+  getOffline: function(){
       
     var data = [];
-
     this.data.forEach(function(obj){
       if(obj.stream == null){
         data.push(obj);
       }
-    })
-
-    this.render(data);
+    });
+    this.updateView(data);
   },
 
-  render: function(data){
-    ctrl.render(data);
-  },
+  updateView: function(data){
+    view.render(data);
+  }
 };
+
+
+
