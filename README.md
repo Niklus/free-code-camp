@@ -6,8 +6,8 @@ Projects from FreeCodeCamp.  [Code Portfolio](https://www.freecodecamp.com/niklu
 
 * Tribute Page
 * Personal Portfolio Webpage
-* [Random Quote Machine](https://niklus.github.io/freeCodeCamp/frontEnd/randomQuoteMachine)
-* [Show Local Weather](https://niklus.github.io/freeCodeCamp/frontEnd/localWeather)
+* [Random Quote Machine](http://codepen.io/Niklus/full/yJmNqa/)
+* [Show Local Weather](http://codepen.io/Niklus/full/qaBJjk/)
 * Wikipedia Viewer
 * [Twitch TV](https://niklus.github.io/freeCodeCamp/frontEnd/twitchTV)
 * Javascript Calculator
