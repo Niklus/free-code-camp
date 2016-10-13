@@ -6,10 +6,10 @@ Projects from FreeCodeCamp.  [Code Portfolio](https://www.freecodecamp.com/niklu
 
 * Tribute Page
 * Personal Portfolio Webpage
-* [Random Quote Machine](https://niklus.github.io/frontEnd/Random Quote Machine)
-* [Show Local Weather](https://niklus.github.io/frontEnd/Ĺocal Weather)
+* [Random Quote Machine](https://niklus.github.io/frontEnd/randomQuoteMachine/quotes.html)
+* [Show Local Weather](https://niklus.github.io/frontEnd/localWeather/weather.html)
 * Wikipedia Viewer
-* [Twitch TV](https://niklus.github.io/freeCodeCamp/frontEnd/twitchTV)
+* [Twitch TV](https://niklus.github.io/freeCodeCamp/frontEnd/twitchTV/twitch.html)
 * Javascript Calculator
 * Pomodoro Clock
 * Tic Tac Toe Game
