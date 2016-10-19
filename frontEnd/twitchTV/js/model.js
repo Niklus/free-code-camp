@@ -67,8 +67,7 @@ var model = {
   },
 
   getAll: function() {
-    var data = this.data;
-    this.updateView(data);
+    this.updateView(this.data);
   },
 
   getOnline: function(){
