@@ -49,7 +49,7 @@ var view = {
       target: '_blank'
     });
     var container = $('<div>').attr('class','container');
-    var media = view.createMedia(obj);
+    var media = this.createMedia(obj);
 
     container.append(media);
     link.append(container);
