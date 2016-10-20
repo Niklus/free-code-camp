@@ -8,6 +8,9 @@ var ctrl = {
        
     // Initialize data
     model.init(); 
+
+    // Then init view once data has loaded
+    setTimeout(view.init,1500); 
   },
 
   search: function(channel){

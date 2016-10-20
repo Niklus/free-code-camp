@@ -63,7 +63,6 @@ var model = {
       view.render(result);  
     }else{
       this.data.push(data);
-      view.init();
     }
   },
 
