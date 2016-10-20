@@ -60,14 +60,15 @@ var model = {
     if(searched){ 
       var result = [];
       result.push(data);
-      this.updateView(result);  
+      view.render(result);  
     }else{
       this.data.push(data);
+      view.init();
     }
   },
 
   getAll: function() {
-    this.updateView(this.data);
+    view.render(this.data);
   },
 
   getOnline: function(){
@@ -78,7 +79,7 @@ var model = {
         data.push(obj);
       }
     });
-    this.updateView(data);
+    view.render(data); 
   },
 
   getOffline: function(){
@@ -89,10 +90,6 @@ var model = {
         data.push(obj);
       }
     });
-    this.updateView(data);
-  },
-
-  updateView: function(data){
     view.render(data);
   }
 };
