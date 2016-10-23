@@ -1,26 +1,24 @@
 var model = {
 		
 	init: function(){
-
 		this.values = [];
 	},
 
 	addNumber: function(val){
-		model.values.push(val);
-		this.eval();
+		this.values.push(val);
 	},
 
-	addOperator: function(){
-		model.values.push(val);
-		this.eval();
-	}
+	addOperator: function(op){
+		this.values.push(op);
+	},
 
 	eval: function(){
 		var values = this.values.join('');
 		this.result = eval(values);
+		this.allClear();
 	},
 
-	reset: function(){
+	allClear: function(){
 		this.values.length = 0;
 	}
 };
@@ -33,17 +31,32 @@ var ctrl = {
 	},
 
 	addNumber: function(val){
-		model.addValue(val);
-		view.render();
+		model.addNumber(val);
+		view.renderValues();
+	},
+
+	addOperator: function(op){
+		model.addOperator(op);
+		view.renderValues();
 	},
 
 	eval: function(){
 		model.eval();
-		view.render();
+		view.renderResult();
+	},
+
+	getValues: function(){
+		return model.values;
 	},
 
 	getResult: function(){
 		return model.result;
+	},
+
+	allClear: function(){
+		model.allClear();
+		view.renderValues();
+		view.renderResult();
 	}
 };
 
@@ -52,25 +65,46 @@ var view = {
 	init: function(){
 		
 		$('button').on('click', function(e){
-			if(e.target.value !== '='){
-				ctrl.addValue(e.target.value);
-			}else{
-				ctrl.eval();
+
+			switch(e.target.value) {
+			    case '=':
+			        ctrl.eval(e.target.value);
+			        break;
+			    case '+'||'-'||'/'||'*':
+			        ctrl.addOperator(e.target.value);
+			        break;
+			    case 'allClear':
+			        ctrl.allClear();
+			        break;
+			    default:
+			        ctrl.addNumber(e.target.value);
 			}
 		});
 
+		this.inputDiv = $('#input');
 		this.input = $('<input>');
-
-		this.render();
+		this.resultDiv = $('#result');
+		this.result = $('<div>');
+		this.renderValues();
+		this.renderResult();
 	},
 
-	render: function(){
+	renderValues: function(){
 
-		var val = ctrl.getResult();
+		var values = ctrl.getValues();
+		
+		values = values? values.join('') : '0';
+        
+        this.input.attr('value',values);
+		this.inputDiv.html('').append(this.input);	
+	},
 
-        this.input.attr('value',val);
+	renderResult: function(){
 
-		$('#display').html('').append(this.input);	
+		var result = ctrl.getResult();
+
+		this.result.text(result||'0');
+		this.resultDiv.html('').append(this.result);
 	}
 };
 
