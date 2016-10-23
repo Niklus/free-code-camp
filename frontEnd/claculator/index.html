@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calculator</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<style type="text/css">
+		body{
+			background:#f9f9f9;
+		}
+		button{
+  			margin-top: 5px;
+		}
+		.container{
+			width:700px;
+			margin: 0 auto;
+		}
+
+		#wrapper{
+			float: left;
+			border: 1px #ccc solid;
+			border-radius: 10px;
+			background: #f4f4f4;
+			padding: 10px;
+            margin-left: 20px; 
+            
+		}
+		input{
+			height: 30px;
+			display: block;
+			text-align: right;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div id = "wrapper">
+			
+			<div id='display'>
+				
+			</div>
+			
+			<div class = 'buttons'>
+	    
+				<button value="7">7</button>
+				<button value="8">8</button>
+				<button value="9">9</button>
+				<button value="/">&divide;</button>
+				<br/>
+				<button value="4">4</button>
+				<button value="5">5</button>
+				<button value="6">6</button>
+				<button>&times;</button>
+				<br/>
+				<button value="1">1</button>
+				<button value="2">2</button>
+				<button value="3">3</button>
+				<button value="-">&minus;</button>
+				<br/>
+				<button value="0">0</button>
+				<button value=".">.</button>
+				<button value="">=</button>
+				<button value="+">&plus;</button>
+			</div>	
+		</div>
+	</div>
+	<script src='app.js'></script>
+</html>
