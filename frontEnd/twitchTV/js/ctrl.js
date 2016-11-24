@@ -14,7 +14,7 @@ var ctrl = {
   },
 
   search: function(channel){
-    model.getStreamData(channel,true);
+    model.getData(channel,true);
   },
 
   getAll: function(){
