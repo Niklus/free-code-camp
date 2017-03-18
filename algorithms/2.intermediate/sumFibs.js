@@ -21,7 +21,7 @@ function sumFibs(num) {
     
     if(num === 75025){
           res += num;
-    } 
+      } 
   
     return res;
 	
