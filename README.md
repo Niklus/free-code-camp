@@ -9,7 +9,7 @@ Projects from FreeCodeCamp.  [Code Portfolio](https://www.freecodecamp.com/niklu
 * [Random Quote Machine](http://codepen.io/Niklus/full/yJmNqa/)
 * [Show Local Weather](http://codepen.io/Niklus/full/qaBJjk/)
 * Wikipedia Viewer
-* [Twitch TV](https://niklus.github.io/freeCodeCamp/frontEnd/twitchTV)
+* [Twitch TV](https://codepen.io/Niklus/full/EgLERv/)
 * Javascript Calculator
 * Pomodoro Clock
 * Tic Tac Toe Game
